@@ -7,53 +7,67 @@ use App\Repositories\PaginationInterface;
 
 use stdClass;
 
-class PaginationPresenter implements PaginationInterface{
+class PaginationPresenter implements PaginationInterface
+{
 
     private array $items;
 
     public function __construct(
         protected LengthAwarePaginator $paginator,
-    ){
+    ) {
         $this->items = $this->resolveItems($this->paginator->items());
     }
 
     /**
      * @return stdClass[]
      */
-    public function items(): array{
+    public function items(): array
+    {
         return $this->items;
     }
 
-    public function total(): int{
+    public function total(): int
+    {
         return $this->paginator->total() ?? 0;
     }
 
-    public function isFirstPage(): bool{
+    public function isFirstPage(): bool
+    {
         return $this->paginator->onFirstPage();
     }
 
-    public function isLastPage(): bool{
+    public function isLastPage(): bool
+    {
         return $this->paginator->currentPage() === $this->paginator->lastPage();
     }
 
-    public function currentPage(): int{
+    public function lastPage(): int
+    {
+        return $this->paginator->lastPage() ?? 1;
+    }
+
+    public function currentPage(): int
+    {
         return $this->paginator->currentPage() ?? 1;
     }
 
-    public function getNumberNextPage(): int{
+    public function getNumberNextPage(): int
+    {
         return $this->paginator->currentPage() + 1;
     }
 
-    public function getNumberPreviousPage(): int{ 
+    public function getNumberPreviousPage(): int
+    {
         return $this->paginator->currentPage() - 1;
     }
 
-    private function resolveItems(array $items): array{
+    private function resolveItems(array $items): array
+    {
 
         $response = [];
-        foreach($items as $item){
+        foreach ($items as $item) {
             $stdClassObject = new stdClass;
-            foreach($item->toArray() as $key => $value){
+            foreach ($item->toArray() as $key => $value) {
                 $stdClassObject->{$key} = $value;
             }
             array_push($response, $stdClassObject);
