@@ -43,4 +43,9 @@ class ForumService{
             filter: $filter,
         );
     }
+
+    public function getStats(): stdClass
+    {
+        return $this->repository->getStats();
+    }
 }

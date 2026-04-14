@@ -15,5 +15,6 @@ interface ForumRepositoryInterface{
     public function delete(string $id): void;
     public function create(CreateForumDTO $dto): stdClass;
     public function update(UpdateForumDTO $dto): stdClass | null;
+    public function getStats(): stdClass;
 
 }

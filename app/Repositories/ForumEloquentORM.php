@@ -72,4 +72,13 @@ class ForumEloquentORM implements ForumRepositoryInterface{
         return (object) $forum->toArray();
     }
 
+    public function getStats(): stdClass
+    {
+        return (object) [
+            'total' => $this->model->count(),
+            'active' => $this->model->where('status', 'A')->count(),
+            'responses' => 0, // Placeholder
+        ];
+    }
+
 }

@@ -10,13 +10,15 @@ use App\Models\Forum;
 use App\Services\ForumService;
 use Illuminate\Http\Request;
 
-class ForumController extends Controller{
+class ForumController extends Controller
+{
 
     public function __construct(
         protected ForumService $service
-    ){}
+    ) {}
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $forums = $this->service->paginate(
             page: $request->get('page', 1),
@@ -25,58 +27,61 @@ class ForumController extends Controller{
         );
 
         $filters = ['filter' => $request->get('filter', '')];
+        $stats = $this->service->getStats();
 
-        return view('admin/forum/index', compact('forums', 'filters'));// compact serve para criar um array associativo para a view e dessa forma podemos acessar as variáveis na view de forma mais simples
+        return view('admin/forum/index', compact('forums', 'filters', 'stats'));
     }
 
-    public function show(string | int $id){
+    public function show(string | int $id)
+    {
 
-        //Forum::where('id', $id)->first(); // também poderia pegar o id dessa forma
-        if(!$forum = $this->service->getById($id)){
+        if (!$forum = $this->service->getById($id)) {
             return back();
         }
 
         return view('admin/forum/show', compact('forum'));
-
     }
 
-    public function create(){
+    public function create()
+    {
 
         return view('admin/forum/create');
     }
 
-    public function store(StoreUpdateForum $request, Forum $forum){
+    public function store(StoreUpdateForum $request, Forum $forum)
+    {
 
         $this->service->create(CreateForumDTO::makeFromRequest($request));
 
         return redirect()->route('forum.index')->with('message', 'Criado com sucesso!');
     }
 
-    public function edit(string $id){
+    public function edit(string $id)
+    {
 
-        if(!$forum = $this->service->getById($id)){
+        if (!$forum = $this->service->getById($id)) {
             return back();
         }
 
         return view('admin/forum/edit', compact('forum'));
     }
 
-    public function update(StoreUpdateForum $request, Forum $forum, string | int $id){
+    public function update(StoreUpdateForum $request, Forum $forum, string | int $id)
+    {
 
         $forum = $this->service->update(UpdateForumDTO::makeFromRequest($request));
 
-        if(!$forum){
+        if (!$forum) {
             return back();
         }
 
         return redirect()->route('forum.index')->with('message', 'Atualizado com sucesso!');
     }
 
-    public function destroy(string $id){
+    public function destroy(string $id)
+    {
 
         $this->service->delete($id);
         return redirect()->route('forum.index')->with('message', 'Deletado com sucesso!');
-
     }
-
 }
