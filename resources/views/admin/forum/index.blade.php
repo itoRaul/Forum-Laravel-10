@@ -120,7 +120,7 @@
                 <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
                     <div class="flex space-x-2">
                         <a href="{{ route('forum.show', $forum->id) }}" class="text-indigo-600 hover:text-indigo-900 font-medium text-sm transition-colors flex items-center">
-                            Visualizar
+                            Interagir
                         </a>
                         <span class="text-gray-300">|</span>
                         <a href="{{ route('forum.edit', $forum->id) }}" class="text-blue-600 hover:text-blue-900 font-medium text-sm transition-colors flex items-center">
