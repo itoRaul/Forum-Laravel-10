@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Logout
     Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
+
+    //Responder tópico
+    Route::post('/forum/{id}/answer', [ForumController::class, 'answer'])->name('forum.answer');
 });
 
 //login

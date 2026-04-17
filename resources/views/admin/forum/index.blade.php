@@ -4,11 +4,9 @@
 
 @section('header')
     <div class="relative overflow-hidden bg-white p-7 rounded-3xl shadow-xl shadow-gray-200/40 mb-8 border border-gray-100 transition-all duration-500">
-        <!-- Abstract Background Shapes (Subtle) -->
         <div class="absolute -top-20 -right-20 w-48 h-48 bg-indigo-50/50 rounded-full blur-3xl"></div>
         
         <div class="relative space-y-7">
-            <!-- Top Row: Title & Action -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-50 pb-6">
                 <div>
                     <div class="flex items-center gap-2 mb-2">
@@ -26,15 +24,12 @@
                         <div class="absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br from-white/20 to-transparent group-hover:opacity-100"></div>
                         <svg class="w-5 h-5 mr-2 transition-transform duration-500 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                         <span class="text-sm">Nova Dúvida</span>
-                        <!-- Shine Effect -->
                         <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white/10 opacity-40 group-hover:animate-shine"></div>
                     </a>
                 </div>
             </div>
 
-            <!-- Stats Section -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Stat Card: Total -->
                 <div class="group bg-gray-50/50 p-4 rounded-2xl border border-gray-100 transition-all duration-300 hover:bg-white hover:shadow-md hover:border-indigo-100 flex items-center border-l-4 border-l-indigo-500/0 hover:border-l-indigo-500">
                     <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm border border-gray-100 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 mr-4">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -45,7 +40,6 @@
                     </div>
                 </div>
 
-                <!-- Stat Card: Ativos -->
                 <div class="group bg-gray-50/50 p-4 rounded-2xl border border-gray-100 transition-all duration-300 hover:bg-white hover:shadow-md hover:border-emerald-100 flex items-center border-l-4 border-l-emerald-500/0 hover:border-l-emerald-500">
                     <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-emerald-500 shadow-sm border border-gray-100 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 mr-4">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -56,14 +50,13 @@
                     </div>
                 </div>
 
-                <!-- Stat Card: Respostas -->
                 <div class="group bg-gray-50/50 p-4 rounded-2xl border border-gray-100 transition-all duration-300 hover:bg-white hover:shadow-md hover:border-purple-100 flex items-center border-l-4 border-l-purple-500/0 hover:border-l-purple-500">
                     <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-purple-500 shadow-sm border border-gray-100 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 mr-4">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                     </div>
                     <div>
                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Respostas</p>
-                        <p class="text-xl font-black text-gray-800 leading-none">{{ $stats->responses }}</p>
+                        <p class="text-xl font-black text-gray-800 leading-none">{{ $answers }}</p>
                     </div>
                 </div>
             </div>
@@ -84,7 +77,6 @@
 
 @section('content')
 
-<!-- Search and Filter Section -->
 <div class="bg-white p-4 rounded-xl shadow-sm mb-6 border border-gray-100 flex flex-col md:flex-row justify-between items-center">
     <form action="{{ route('forum.index') }}" method="get" class="w-full relative flex items-center">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -94,10 +86,14 @@
         <button type="submit" class="absolute right-2 px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-colors">
             Filtrar
         </button>
+        @if($filters['filter'] ?? '')
+            <a href="{{ route('forum.index') }}" class="absolute right-2 px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-colors">
+                Limpar
+            </a>
+        @endif
     </form>
 </div>
 
-<!-- Forums List (Cards) -->
 @if(count($forums->items()) > 0)
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         @foreach($forums->items() as $forum)
@@ -155,7 +151,6 @@
     </div>
 @endif
 
-<!-- Pagination -->
 <div class="mt-6">
     <x-pagination :paginator="$forums" :appends="$filters"/>
 </div>
